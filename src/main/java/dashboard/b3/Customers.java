@@ -1,21 +1,25 @@
 package dashboard.b3;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "customers")
-public class Customers {
+public class Customers extends PanacheEntityBase {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customer_id;
     @Column
-    private String last_name;
+    private String pseudo;
     @Column
-    private String first_name;
+    private String photo;
     @Column
-    private Integer nbr_order;
-
-
+    private String email;
+    @Column
+    private Long status;
 
     public Long getCustomer_id() {
         return customer_id;
@@ -25,27 +29,35 @@ public class Customers {
         this.customer_id = customer_id;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getPseudo() {
+        return pseudo;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
-    public Integer getNbr_order() {
-        return nbr_order;
+    public String getEmail() {
+        return email;
     }
 
-    public void setNbr_order(Integer nbr_order) {
-        this.nbr_order = nbr_order;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
     }
 }
