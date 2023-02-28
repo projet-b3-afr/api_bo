@@ -1,6 +1,5 @@
 package dashboard.b3;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
@@ -21,7 +20,7 @@ public class Products extends PanacheEntityBase {
     @Column
     private Long promotion;
     @Column
-    private Long reduction;
+    private String photo;
     @Column
     private String categorie;
     @Column
@@ -68,12 +67,12 @@ public class Products extends PanacheEntityBase {
         this.promotion = promotion;
     }
 
-    public Long getReduction() {
-        return reduction;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setReduction(Long reduction) {
-        this.reduction = reduction;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public String getCategorie() {
