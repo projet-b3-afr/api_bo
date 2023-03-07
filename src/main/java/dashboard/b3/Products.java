@@ -10,7 +10,7 @@ public class Products extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long product_id;
+    public Long product_id;
     @Column
     private String name;
     @Column

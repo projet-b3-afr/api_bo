@@ -11,15 +11,15 @@ public class Customers extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customer_id;
+    public Long customer_id;
     @Column
-    private String pseudo;
+    public String pseudo;
     @Column
-    private String photo;
+    public String photo;
     @Column
-    private String email;
+    public String email;
     @Column
-    private Long status;
+    public Long status;
 
     public Long getCustomer_id() {
         return customer_id;
