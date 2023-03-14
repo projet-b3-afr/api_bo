@@ -12,19 +12,19 @@ public class Products extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long product_id;
     @Column
-    private String name;
+    public String name;
     @Column
-    private String description;
+    public String description;
     @Column
-    private Float price;
+    public Float price;
     @Column
-    private Long promotion;
+    public Long promotion;
     @Column
-    private String photo;
+    public String photo;
     @Column
-    private String categorie;
+    public String categorie;
     @Column
-    private Long stock;
+    public Long stock;
 
 
     public Long getProduct_id() {

@@ -1,5 +1,8 @@
 package dashboard.b3;
 
+
+import org.modelmapper.ModelMapper;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -8,7 +11,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
-import java.util.List;
 
 @ApplicationScoped
 @Path("/api")
@@ -16,6 +18,7 @@ public class Api {
 
     @Inject
     EntityManager entityManager;
+
 
     @GET
     @Path("/customers")
@@ -45,6 +48,27 @@ public class Api {
         return Response.ok(Products.listAll()).build();
 
     }
+    @GET
+    @Path("/test")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProductds() {
+        return Response.ok(Commande.listAll()).build();
+
+    }
+
+    @GET
+    @Path("/products/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProducts(@PathParam("id") Long id) {
+        return Response.ok(Products.findById(id)).build();
+    }
+
+    @GET
+    @Path("/listeCommandes/{id}")
+    public Response getCommandeUser(@PathParam("id") Long id){
+        return Response.ok(Commandes.findById(id)).build();
+    }
+
 
     @PUT
     @Path("/updateStatus")
@@ -58,17 +82,22 @@ public class Api {
     }
 
     @POST
+    @Transactional
     @Path("/addProduct")
+    public Response create(Products newProduct) {
+       entityManager.merge(newProduct);
+       return Response.ok(newProduct).build();
+
+    }
+
+    @PUT
+    @Path("/updatePrice")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response create(Products product) {
-        Products existingProduct = Products.findById(product.product_id);
-        if (existingProduct != null) {
-            return Response.status(Response.Status.CONFLICT).build(); // Return 409 Conflict
-        }
-
-        // If the product doesn't exist, persist it
-        Products.persist(product);
-        return Response.created(URI.create("/" + product.product_id)).build();
+    public Response updateStatus(Products products) {
+        Products toUpdate = Products.findById(products.product_id);
+        toUpdate.price = products.price;
+        return Response.ok(products).build();
     }
 }

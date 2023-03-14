@@ -118,6 +118,7 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.4" level="project" />
+    <orderEntry type="library" name="Maven: org.modelmapper:modelmapper:2.4.4" level="project" />
     <orderEntry type="library" name="Maven: io.quarkus:quarkus-resteasy-jackson:2.14.3.Final" level="project" />
     <orderEntry type="library" name="Maven: io.quarkus:quarkus-jackson:2.14.3.Final" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4" level="project" />
