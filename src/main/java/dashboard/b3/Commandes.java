@@ -25,6 +25,8 @@ public class Commandes extends PanacheEntityBase {
     @Column
     public Number employee_id;
 
+
+
     public Number getOrder_id() {
         return order_id;
     }
@@ -64,4 +66,6 @@ public class Commandes extends PanacheEntityBase {
     public void setEmployee_id(Number employee_id) {
         this.employee_id = employee_id;
     }
+
+
 }

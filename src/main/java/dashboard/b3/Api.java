@@ -1,8 +1,6 @@
 package dashboard.b3;
 
 
-import org.modelmapper.ModelMapper;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -10,7 +8,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URI;
+import java.util.List;
 
 @ApplicationScoped
 @Path("/api")
@@ -52,7 +50,7 @@ public class Api {
     @Path("/test")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProductds() {
-        return Response.ok(Commande.listAll()).build();
+        return Response.ok(Commandes.listAll()).build();
 
     }
 
@@ -64,9 +62,11 @@ public class Api {
     }
 
     @GET
-    @Path("/listeCommandes/{id}")
-    public Response getCommandeUser(@PathParam("id") Long id){
-        return Response.ok(Commandes.findById(id)).build();
+    @Path("/listeCommandes")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public List<Commandes> getAllOrdersWithCustomer() {
+        return Commandes.listAll();
     }
 
 

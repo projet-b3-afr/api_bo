@@ -1,6 +1,7 @@
 package dashboard.b3;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
@@ -14,14 +15,17 @@ public class productCommande extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Number product_order_id;
 
-    @Column
-    public Number order_id;
+//    @Column
+//    public Number order_id;
 
     @Column
     public Number product_id;
 
     @Column
     public Number quantity;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    public Commandes fk_order_product;
 
     public Number getProduct_order_id() {
         return product_order_id;
@@ -29,14 +33,6 @@ public class productCommande extends PanacheEntityBase {
 
     public void setProduct_order_id(Number product_order_id) {
         this.product_order_id = product_order_id;
-    }
-
-    public Number getOrder_id() {
-        return order_id;
-    }
-
-    public void setOrder_id(Number order_id) {
-        this.order_id = order_id;
     }
 
     public Number getProduct_id() {
@@ -53,6 +49,14 @@ public class productCommande extends PanacheEntityBase {
 
     public void setQuantity(Number quantity) {
         this.quantity = quantity;
+    }
+
+    public Commandes getCommande() {
+        return fk_order_product;
+    }
+
+    public void setCommande(Commandes commande) {
+        this.fk_order_product = commande;
     }
 }
 
