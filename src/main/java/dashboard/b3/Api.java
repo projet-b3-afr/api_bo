@@ -26,6 +26,13 @@ public class Api {
 
     }
 
+    @GET
+    @Path("/customer/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCustomerId(@PathParam("id") Long id) {
+        return Response.ok(Customers.findById(id)).build();
+    }
+
     @PUT
     @Path("/updateCustomer")
     @Produces(MediaType.APPLICATION_JSON)
