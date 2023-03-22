@@ -33,6 +33,15 @@ public class Api {
         return Response.ok(Customers.findById(id)).build();
     }
 
+    @POST
+    @Transactional
+    @Path("/addCustomer")
+    public Response create(Customers newCustomer) {
+        entityManager.merge(newCustomer);
+        return Response.ok(newCustomer).build();
+
+    }
+
     @PUT
     @Path("/updateCustomer")
     @Produces(MediaType.APPLICATION_JSON)
