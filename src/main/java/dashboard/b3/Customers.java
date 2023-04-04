@@ -21,6 +21,9 @@ public class Customers extends PanacheEntityBase {
     @Column
     public Long status;
 
+    @Column
+    public String password;
+
     public Long getCustomer_id() {
         return customer_id;
     }
@@ -59,5 +62,13 @@ public class Customers extends PanacheEntityBase {
 
     public void setStatus(Long status) {
         this.status = status;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

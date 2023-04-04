@@ -85,7 +85,6 @@ public class Api {
         return Commandes.listAll();
     }
 
-
     @PUT
     @Path("/updateStatus")
     @Produces(MediaType.APPLICATION_JSON)

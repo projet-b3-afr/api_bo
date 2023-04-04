@@ -23,6 +23,9 @@ public class productCommande extends PanacheEntityBase {
 
     @Column
     public Number quantity;
+
+    @Column
+    public String password;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", insertable = false, updatable = false)
     public Commandes fk_order_product;
