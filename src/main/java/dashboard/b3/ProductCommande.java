@@ -1,15 +1,14 @@
 package dashboard.b3;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
 
 
 @Entity
-@Table(name = "product_orders")
-public class productCommande extends PanacheEntityBase {
+@Table(name = "product_order")
+public class ProductCommande extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +23,6 @@ public class productCommande extends PanacheEntityBase {
     @Column
     public Number quantity;
 
-    @Column
-    public String password;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", insertable = false, updatable = false)
     public Commandes fk_order_product;

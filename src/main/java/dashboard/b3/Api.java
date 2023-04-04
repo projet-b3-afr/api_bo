@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @ApplicationScoped
 @Path("/api")
@@ -81,8 +80,8 @@ public class Api {
     @Path("/listeCommandes")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public List<Commandes> getAllOrdersWithCustomer() {
-        return Commandes.listAll();
+    public Response getAllOrdersWithCustomer() {
+        return Response.ok(ProductCommande.listAll()).build();
     }
 
     @PUT
