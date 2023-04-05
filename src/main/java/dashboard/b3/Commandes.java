@@ -11,61 +11,59 @@ public class Commandes extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Number order_id;
+    public Long order_id;
+
+    @Column(name = "date_order")
+    public Date dateOrder;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    public Customers customer;
 
     @Column
-    public Date date_order;
+    public String status;
 
     @Column
-    public Number customer_id;
-
-    @Column
-    public boolean status;
-
-    @Column
-    public Number employee_id;
+    public Long employee_id;
 
 
-
-    public Number getOrder_id() {
+    public Long getOrder_id() {
         return order_id;
     }
 
-    public void setOrder_id(Number order_id) {
+    public void setOrder_id(Long order_id) {
         this.order_id = order_id;
     }
 
-    public Date getDate_order() {
-        return date_order;
+    public Date getDateOrder() {
+        return dateOrder;
     }
 
-    public void setDate_order(Date date_order) {
-        this.date_order = date_order;
+    public void setDateOrder(Date dateOrder) {
+        this.dateOrder = dateOrder;
     }
 
-    public Number getCustomer_id() {
-        return customer_id;
+    public Customers getCustomer() {
+        return customer;
     }
 
-    public void setCustomer_id(Number customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomer(Customers customer) {
+        this.customer = customer;
     }
 
-    public boolean isStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Number getEmployee_id() {
+    public Long getEmployee_id() {
         return employee_id;
     }
 
-    public void setEmployee_id(Number employee_id) {
+    public void setEmployee_id(Long employee_id) {
         this.employee_id = employee_id;
     }
-
-
 }

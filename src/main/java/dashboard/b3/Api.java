@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Path("/api")
@@ -76,12 +78,25 @@ public class Api {
         return Response.ok(Products.findById(id)).build();
     }
 
+
     @GET
-    @Path("/listeCommandes")
+    @Path("/commandes/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response getAllOrdersWithCustomer() {
-        return Response.ok(ProductCommande.listAll()).build();
+    public Response getOrdersWithCustomers(@PathParam("customerId") Long customerId) {
+        List<Commandes> commandesList = Commandes.list("customer.customer_id", customerId);
+        List<CommandesDto> commandesDtoList = commandesList.stream().map(CommandesDto::fromEntity).collect(Collectors.toList());
+        return Response.ok(commandesDtoList).build();
+    }
+
+    @GET
+    @Path("/productCommande/{orderId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response getProductsOfOrder(@PathParam("orderId") Long orderId) {
+        List<ProductCommande> productsList = ProductCommande.list("order.order_id", orderId);
+        List<ProductCommandeDto> productDtoList = productsList.stream().map(ProductCommandeDto::fromEntity).collect(Collectors.toList());
+        return Response.ok(productDtoList).build();
     }
 
     @PUT
