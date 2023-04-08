@@ -1,6 +1,9 @@
 package dashboard.b3;
 
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.panache.common.Page;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -40,7 +43,6 @@ public class Api {
     public Response create(Customers newCustomer) {
         entityManager.merge(newCustomer);
         return Response.ok(newCustomer).build();
-
     }
 
     @PUT
@@ -59,16 +61,12 @@ public class Api {
     @GET
     @Path("/products")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProducts() {
-        return Response.ok(Products.listAll()).build();
+    public Response getProducts(@QueryParam("page") @DefaultValue("1") int page, @QueryParam("perPage") @DefaultValue("20") int perPage) {
+        PanacheQuery<Products> query = Products.findAll();
+        query.page(Page.of(page - 1, perPage));
+        List<Products> products = query.list();
 
-    }
-    @GET
-    @Path("/test")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getProductds() {
-        return Response.ok(Commandes.listAll()).build();
-
+        return Response.ok(products).build();
     }
 
     @GET
