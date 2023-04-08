@@ -156,7 +156,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.dashboard.b3</mainClass>
+                            <mainClass>io.quarkus.runtime.QuarkusApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
