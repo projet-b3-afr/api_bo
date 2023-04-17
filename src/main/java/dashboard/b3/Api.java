@@ -31,6 +31,14 @@ public class Api {
     }
 
     @GET
+    @Path("/nbProducts")
+    @Produces(MediaType.APPLICATION_JSON)
+    public int getNbProducts() {
+        return Products.listAll().toArray().length;
+
+    }
+
+    @GET
     @Path("/customer/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerId(@PathParam("id") Long id) {
@@ -58,12 +66,29 @@ public class Api {
         return Response.ok(customer).build();
     }
 
+    @PUT
+    @Path("/updateProduct")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response updateProduct(Products product) {
+        Products toUpdate = Products.findById(product.product_id);
+        toUpdate.name = product.name;
+        toUpdate.description = product.description;
+        toUpdate.price = product.price;
+        toUpdate.promotion = product.promotion;
+        toUpdate.photo = product.photo;
+        toUpdate.categorie = product.categorie;
+        toUpdate.stock = product.stock;
+        return Response.ok(product).build();
+    }
+
     @GET
     @Path("/products")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProducts(@QueryParam("page") @DefaultValue("1") int page, @QueryParam("perPage") @DefaultValue("20") int perPage) {
+    public Response getProducts(@QueryParam("page") @DefaultValue("1") int page) {
         PanacheQuery<Products> query = Products.findAll();
-        query.page(Page.of(page - 1, perPage));
+        query.page(Page.of(page - 1, 20));
         List<Products> products = query.list();
 
         return Response.ok(products).build();
@@ -127,4 +152,29 @@ public class Api {
         toUpdate.price = products.price;
         return Response.ok(products).build();
     }
+
+    @DELETE
+    @Path("/delProduct/{id}")
+    @Transactional
+    public Response deleteProduct(@PathParam("id") Long id) {
+        Products products = Products.findById(id);
+        if (products == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        products.delete();
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @DELETE
+    @Path("/delCustomer/{id}")
+    @Transactional
+    public Response deleteCustomer(@PathParam("id") Long id) {
+        Customers customers = Customers.findById(id);
+        if (customers == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        customers.delete();
+        return Response.status(Response.Status.OK).build();
+    }
+
 }
