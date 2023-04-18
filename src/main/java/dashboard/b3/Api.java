@@ -1,6 +1,7 @@
 package dashboard.b3;
 
 
+import io.quarkus.arc.All;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Page;
 
@@ -11,7 +12,9 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -33,8 +36,12 @@ public class Api {
     @GET
     @Path("/nbProducts")
     @Produces(MediaType.APPLICATION_JSON)
-    public int getNbProducts() {
-        return Products.listAll().toArray().length;
+    public int getNbProducts(@QueryParam("category") @DefaultValue("any") String category) {
+        if(Objects.equals(category, "any")){
+            return Products.listAll().toArray().length;
+        }else {
+            return Products.find("categorie",category).list().toArray().length;
+        }
 
     }
 
@@ -86,12 +93,19 @@ public class Api {
     @GET
     @Path("/products")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProducts(@QueryParam("page") @DefaultValue("1") int page) {
-        PanacheQuery<Products> query = Products.findAll();
-        query.page(Page.of(page - 1, 20));
-        List<Products> products = query.list();
+    public Response getProducts(@QueryParam("page") @DefaultValue("1") int page, @QueryParam("category") @DefaultValue("any") String category) {
 
-        return Response.ok(products).build();
+        if(Objects.equals(category, "any")){
+            PanacheQuery<Products> query = Products.findAll();
+            query.page(Page.of(page - 1, 20));
+            List<Products> products = query.list();
+            return Response.ok(products).build();
+        }else{
+            PanacheQuery<Products> query = Products.find("categorie",category);
+            query.page(Page.of(page - 1, 20));
+            List<Products> products = query.list();
+            return Response.ok(products).build();
+        }
     }
 
     @GET
@@ -175,6 +189,21 @@ public class Api {
         }
         customers.delete();
         return Response.status(Response.Status.OK).build();
+    }
+
+    @POST
+    @Path("/addOrder/{id}")
+    @Transactional
+    public Response addOrder(@PathParam("id") Long id){
+        List<Commandes> commandesList = Commandes.listAll();
+        Commandes commande = new Commandes();
+        commande.order_id = commandesList.get(commandesList.size() - 1).order_id;
+        commande.customer = Customers.findById(id);
+        commande.status = "0";
+        commande.dateOrder = new Date();
+        commande.employee_id = 0L;
+        entityManager.merge(commande);
+        return Response.ok(commande).build();
     }
 
 }
