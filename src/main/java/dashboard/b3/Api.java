@@ -235,6 +235,8 @@ public class Api {
             productOrder.product = Products.findById(product.id);
             productOrder.quantity = product.quantity;
             entityManager.persist(productOrder);
+            Products change = Products.findById(product.id);
+            change.stock = change.stock - product.quantity;
         });
         entityManager.flush();
 
