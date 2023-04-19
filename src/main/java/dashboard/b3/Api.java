@@ -91,6 +91,18 @@ public class Api {
     }
 
     @GET
+    @Path("/productList")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProducts() {
+
+
+        PanacheQuery<Products> query = Products.findAll();
+
+        List<Products> products = query.list();
+        return Response.ok(products).build();
+
+    }
+    @GET
     @Path("/products")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProducts(@QueryParam("page") @DefaultValue("1") int page, @QueryParam("category") @DefaultValue("any") String category) {
