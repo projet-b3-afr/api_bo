@@ -208,12 +208,12 @@ public class Api {
 
     @POST
     @Path("/addOrder/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response addOrder(@PathParam("id") Long id, String json)throws JsonProcessingException   {
+    public Response addOrder(@PathParam("id") Long id, List<ProductsCommandesAdd> json)   {
 
-        ObjectMapper mapper = new ObjectMapper();
-        List<ProductsCommandesAdd> products = mapper.readValue(json, new TypeReference<>() {});
+
+        List<ProductsCommandesAdd> products = json;
+
 
         Commandes commande = new Commandes();
         commande.customer = Customers.findById(id);
@@ -231,6 +231,7 @@ public class Api {
     @Transactional
     public Response addProductOrder(List<ProductsCommandesAdd> products,Commandes commandes) {
         products.forEach(product -> {
+            System.out.println("BITE"+product.id + product.quantity);
             ProductCommande productOrder = new ProductCommande();
             productOrder.order = commandes;
             productOrder.product = Products.findById(product.id);
