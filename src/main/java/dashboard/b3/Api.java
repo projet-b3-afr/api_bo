@@ -208,6 +208,7 @@ public class Api {
 
     @POST
     @Path("/addOrder/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response addOrder(@PathParam("id") Long id, String json)throws JsonProcessingException   {
 
