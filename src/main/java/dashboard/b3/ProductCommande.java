@@ -23,7 +23,7 @@ public class ProductCommande extends PanacheEntityBase {
     public Products product;
 
     @Column
-    public String quantity;
+    public Long quantity;
 
     public Long getProduct_order_id() {
         return product_order_id;
@@ -49,11 +49,11 @@ public class ProductCommande extends PanacheEntityBase {
         this.product = product;
     }
 
-    public String getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 }

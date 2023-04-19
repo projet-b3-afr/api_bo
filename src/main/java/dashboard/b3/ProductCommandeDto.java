@@ -5,7 +5,7 @@ public class ProductCommandeDto {
     public Long product_order_id;
     public CommandesDto order;
     public ProductDto product;
-    public String quantity;
+    public Long quantity;
 
     public static ProductCommandeDto fromEntity(ProductCommande productCommande) {
         ProductCommandeDto productCommandeDto = new ProductCommandeDto();

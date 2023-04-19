@@ -1,7 +1,9 @@
 package dashboard.b3;
 
 
-import io.quarkus.arc.All;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Page;
 
@@ -16,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 
 @ApplicationScoped
 @Path("/api")
@@ -206,16 +209,36 @@ public class Api {
     @POST
     @Path("/addOrder/{id}")
     @Transactional
-    public Response addOrder(@PathParam("id") Long id){
-        List<Commandes> commandesList = Commandes.listAll();
+    public Response addOrder(@PathParam("id") Long id, String json)throws JsonProcessingException   {
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<ProductsCommandesAdd> products = mapper.readValue(json, new TypeReference<>() {});
+
         Commandes commande = new Commandes();
-        commande.order_id = commandesList.get(commandesList.size() - 1).order_id;
         commande.customer = Customers.findById(id);
         commande.status = "0";
         commande.dateOrder = new Date();
         commande.employee_id = 0L;
-        entityManager.merge(commande);
+
+
+        entityManager.persist(commande);
+        entityManager.flush();
+
+        addProductOrder(products,commande);
         return Response.ok(commande).build();
+    }
+    @Transactional
+    public Response addProductOrder(List<ProductsCommandesAdd> products,Commandes commandes) {
+        products.forEach(product -> {
+            ProductCommande productOrder = new ProductCommande();
+            productOrder.order = commandes;
+            productOrder.product = Products.findById(product.id);
+            productOrder.quantity = product.quantity;
+            entityManager.persist(productOrder);
+        });
+        entityManager.flush();
+
+        return Response.ok("productOrderList").build();
     }
 
 }
