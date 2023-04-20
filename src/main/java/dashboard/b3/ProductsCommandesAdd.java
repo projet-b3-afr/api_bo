@@ -8,3 +8,4 @@ public class ProductsCommandesAdd {
     @JsonProperty("quantity")
     Long quantity;
 }
+

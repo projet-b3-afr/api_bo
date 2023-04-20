@@ -231,7 +231,6 @@ public class Api {
     @Transactional
     public Response addProductOrder(List<ProductsCommandesAdd> products,Commandes commandes) {
         products.forEach(product -> {
-            System.out.println("BITE"+product.id + product.quantity);
             ProductCommande productOrder = new ProductCommande();
             productOrder.order = commandes;
             productOrder.product = Products.findById(product.id);
@@ -244,5 +243,46 @@ public class Api {
 
         return Response.ok("productOrderList").build();
     }
+
+
+    @POST
+    @Path("/addFav/{id}")
+    @Transactional
+    public Response addFavorite(@PathParam("id") Long id, List<FavoriteAdd> favoriteList){
+        favoriteList.forEach(fav -> {
+            Favorite favorite = new Favorite();
+            favorite.customer = Customers.findById(id);
+            favorite.product = Products.findById(fav.product_id);
+            entityManager.persist(favorite);
+        });
+        entityManager.flush();
+        return Response.ok().build();
+    }
+
+
+    @DELETE
+    @Path("/delFav/{id}")
+    @Transactional
+    public Response deleteFavorite(@PathParam("id") Long id, @QueryParam("product") Long product_id) {
+        PanacheQuery<Favorite> favoriteList = Favorite.find("customer_id = ?1 and product_id = ?2", id, product_id);
+        favoriteList.list().forEach(fav -> {
+            if (fav != null) {
+                fav.delete();
+            }
+        });
+
+        return Response.ok("objet delete").build();
+
+
+
+    }
+
+
+
+
+
+
+
+
 
 }
