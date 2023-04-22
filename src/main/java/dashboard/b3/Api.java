@@ -40,10 +40,10 @@ public class Api {
     @Path("/nbProducts")
     @Produces(MediaType.APPLICATION_JSON)
     public int getNbProducts(@QueryParam("category") @DefaultValue("any") String category) {
-        if(Objects.equals(category, "any")){
+        if (Objects.equals(category, "any")) {
             return Products.listAll().toArray().length;
-        }else {
-            return Products.find("categorie",category).list().toArray().length;
+        } else {
+            return Products.find("categorie", category).list().toArray().length;
         }
 
     }
@@ -52,6 +52,7 @@ public class Api {
     @Path("/customer/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerId(@PathParam("id") Long id) {
+
         return Response.ok(Customers.findById(id)).build();
     }
 
@@ -105,18 +106,19 @@ public class Api {
         return Response.ok(products).build();
 
     }
+
     @GET
     @Path("/products")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProducts(@QueryParam("page") @DefaultValue("1") int page, @QueryParam("category") @DefaultValue("any") String category) {
 
-        if(Objects.equals(category, "any")){
+        if (Objects.equals(category, "any")) {
             PanacheQuery<Products> query = Products.findAll();
             query.page(Page.of(page - 1, 20));
             List<Products> products = query.list();
             return Response.ok(products).build();
-        }else{
-            PanacheQuery<Products> query = Products.find("categorie",category);
+        } else {
+            PanacheQuery<Products> query = Products.find("categorie", category);
             query.page(Page.of(page - 1, 20));
             List<Products> products = query.list();
             return Response.ok(products).build();
@@ -166,8 +168,8 @@ public class Api {
     @Transactional
     @Path("/addProduct")
     public Response create(Products newProduct) {
-       entityManager.merge(newProduct);
-       return Response.ok(newProduct).build();
+        entityManager.merge(newProduct);
+        return Response.ok(newProduct).build();
 
     }
 
@@ -209,7 +211,7 @@ public class Api {
     @POST
     @Path("/addOrder/{id}")
     @Transactional
-    public Response addOrder(@PathParam("id") Long id, List<ProductsCommandesAdd> json)   {
+    public Response addOrder(@PathParam("id") Long id, List<ProductsCommandesAdd> json) {
 
 
         List<ProductsCommandesAdd> products = json;
@@ -225,11 +227,12 @@ public class Api {
         entityManager.persist(commande);
         entityManager.flush();
 
-        addProductOrder(products,commande);
+        addProductOrder(products, commande);
         return Response.ok(commande).build();
     }
+
     @Transactional
-    public Response addProductOrder(List<ProductsCommandesAdd> products,Commandes commandes) {
+    public Response addProductOrder(List<ProductsCommandesAdd> products, Commandes commandes) {
         products.forEach(product -> {
             ProductCommande productOrder = new ProductCommande();
             productOrder.order = commandes;
@@ -248,13 +251,12 @@ public class Api {
     @POST
     @Path("/addFav/{id}")
     @Transactional
-    public Response addFavorite(@PathParam("id") Long id, List<FavoriteAdd> favoriteList){
-        favoriteList.forEach(fav -> {
-            Favorite favorite = new Favorite();
-            favorite.customer = Customers.findById(id);
-            favorite.product = Products.findById(fav.product_id);
-            entityManager.persist(favorite);
-        });
+    public Response addFavorite(@PathParam("id") Long id, FavoriteAdd favorite) {
+
+        Favorite favoriteAdd = new Favorite();
+        favoriteAdd.customer = Customers.findById(id);
+        favoriteAdd.product = Products.findById(favorite.product_id);
+        entityManager.persist(favoriteAdd);
         entityManager.flush();
         return Response.ok().build();
     }
@@ -274,15 +276,7 @@ public class Api {
         return Response.ok("objet delete").build();
 
 
-
     }
-
-
-
-
-
-
-
 
 
 }
