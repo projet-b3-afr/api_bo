@@ -272,11 +272,19 @@ public class Api {
                 fav.delete();
             }
         });
-
         return Response.ok("objet delete").build();
-
-
     }
+
+    @GET
+    @Path("/getFav/{id}")
+    @Transactional
+    public Response getFavCustomer(@PathParam("id") Long id){
+        List<Favorite> favorite = Favorite.list("customer.customer_id", id);
+        List<FavoriteDto> favoriteList = favorite.stream().map(FavoriteDto::fromEntity).collect(Collectors.toList());
+        return Response.ok(favoriteList).build();
+    }
+
+
 
 
 }
