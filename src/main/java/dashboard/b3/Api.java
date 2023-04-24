@@ -71,6 +71,7 @@ public class Api {
         toUpdate.pseudo = customer.pseudo;
         toUpdate.email = customer.email;
         toUpdate.photo = customer.photo;
+        toUpdate.password = customer.password;
         return Response.ok(customer).build();
     }
 
@@ -201,9 +202,21 @@ public class Api {
         if (customers == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
+        PanacheQuery<Favorite> fav = Favorite.find("customer", customers);
+        if (fav.list().size() > 0) {
+            Favorite.delete(fav.list().toString());
+        }
+
+        PanacheQuery<Commandes> order = Commandes.find("customer", customers);
+        if (order.list().size() > 0) {
+            Commandes.delete(order.list().toString());
+        }
+
         customers.delete();
         return Response.status(Response.Status.OK).build();
     }
+
 
     @POST
     @Path("/addOrder/{id}")
