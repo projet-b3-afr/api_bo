@@ -9,5 +9,5 @@ services:
       MP_JWT_VERIFY_PUBLICKEY_LOCATION: /src/main/ressources/publicKey.pem
     volumes:
       - type: bind
-        source: ./jwt
+        source: .
         target: /jwt
