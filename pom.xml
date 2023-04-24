@@ -17,6 +17,7 @@
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -73,6 +74,24 @@
             <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-jwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-jwt-build</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-elytron-security-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-elytron-security</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
