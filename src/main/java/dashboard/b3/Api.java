@@ -11,9 +11,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -190,9 +188,44 @@ public class Api {
         if (products == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
+        PanacheQuery<ProductCommande> productCommande = ProductCommande.find("product", products);
+        productCommande.list().forEach(p->{
+            PanacheQuery<Commandes> order = Commandes.find("order_id", p.order.order_id);
+            if (order.list().size() > 0) {
+                order.list().forEach(ord -> {
+                    ProductCommande.delete("order", ord);
+                    PanacheQuery<Favorite> fav = Favorite.find("product", p.product);
+                    if (fav.list().size() > 0) {
+                        fav.list().forEach(f->{
+                            Products produit = new Products();
+                            produit.stock = 0L;
+                            produit.name = "";
+                            produit.description = "";
+                            produit.price = 0F;
+                            produit.categorie = "";
+                            produit.photo = "";
+                            produit.promotion = 0L;
+
+                            produit.persist();
+
+                            f.product = produit;
+                            f.persist();
+                        });
+                    }
+
+                });
+            }
+            Commandes.delete("order_id", p.order.order_id);
+        });
+
         products.delete();
         return Response.status(Response.Status.OK).build();
     }
+
+
+
+
 
     @DELETE
     @Path("/delCustomer/{id}")
@@ -205,15 +238,21 @@ public class Api {
 
         PanacheQuery<Favorite> fav = Favorite.find("customer", customers);
         if (fav.list().size() > 0) {
-            Favorite.delete(fav.list().toString());
+            Favorite.delete("customer", customers);
         }
+
+
 
         PanacheQuery<Commandes> order = Commandes.find("customer", customers);
         if (order.list().size() > 0) {
-            Commandes.delete(order.list().toString());
+            order.list().forEach(ord -> {
+                    ProductCommande.delete("order", ord);
+            });
+            Commandes.delete("customer", customers);
         }
 
         customers.delete();
+        entityManager.flush();
         return Response.status(Response.Status.OK).build();
     }
 
@@ -222,8 +261,6 @@ public class Api {
     @Path("/addOrder/{id}")
     @Transactional
     public Response addOrder(@PathParam("id") Long id, List<ProductsCommandesAdd> json) {
-
-
         List<ProductsCommandesAdd> products = json;
 
 
