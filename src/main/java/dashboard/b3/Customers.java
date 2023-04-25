@@ -5,6 +5,8 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
 
+
+//Definition via ORM de la table customers
 @Entity
 @Table(name = "customers")
 public class Customers extends PanacheEntityBase {

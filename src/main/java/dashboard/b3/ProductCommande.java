@@ -5,7 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
 
-
+//Definition via ORM de la table product_order
 @Entity
 @Table(name = "product_order")
 public class ProductCommande extends PanacheEntityBase {

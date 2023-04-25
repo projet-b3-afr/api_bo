@@ -1,5 +1,7 @@
 package dashboard.b3;
 
+
+//Definition de la classe DTO pour le customer afin de le créer facilement
 public class CustomersDto {
 
 

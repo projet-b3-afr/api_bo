@@ -2,6 +2,7 @@ package dashboard.b3;
 
 import java.util.Date;
 
+//Definition de la classe DTO pour la commande afin de la créer facilement
 public class CommandesDto {
 
     public Long order_id;

@@ -1,5 +1,7 @@
 package dashboard.b3;
 
+
+//Definition de la classe DTO pour le produit afin de le créer facilement
 public class ProductDto {
 
     public Long product_id;

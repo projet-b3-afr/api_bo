@@ -1,5 +1,6 @@
 package dashboard.b3;
 
+//Definition de la classe DTO pour le favori afin de le créer facilement
 public class FavoriteDto {
 
 

@@ -30,6 +30,7 @@ public class JwtRessource {
     @Inject
     EntityManager entityManager;
 
+    //Ici je génère le jwt si l'utilisateur a un status 3 qui est l'admin
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     public Response getJwt(Customers customer) {
@@ -41,6 +42,7 @@ public class JwtRessource {
         return Response.status(401).build();
     }
 
+    //Ici je check le jwt pour accorder la connexion au front
     @GET
     @Path("/checkJwt")
     @RolesAllowed({"admin"})

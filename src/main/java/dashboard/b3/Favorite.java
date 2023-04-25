@@ -3,6 +3,9 @@ package dashboard.b3;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
+
+
+//Definition via ORM de la table favorite
 @Entity
 @Table(name = "favorite")
 public class Favorite extends PanacheEntityBase {

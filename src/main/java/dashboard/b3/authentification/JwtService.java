@@ -10,6 +10,7 @@ import java.util.Set;
 @Singleton
 public class JwtService {
 
+    //Generation du jwt qui donne le role admin
     public String generateJwt() {
 
         Set<String> group = new HashSet<>(
